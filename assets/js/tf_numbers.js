@@ -18,6 +18,7 @@ jQuery.fn.statsCounter = function(){
 
       function startCounter(){
           incrementBy = Math.round(count / 90); //Divide inputed number by 90 to gain optimal speed (not too fast, not too slow)
+          if( count < 90 ) incrementBy = Math.round(count / 5);
           start = start + incrementBy;
           jQuery(number).text(start);
           //if desired number reched, stop counting
@@ -43,44 +44,49 @@ jQuery.fn.statsCounter = function(){
 jQuery(document).ready(function(jQuery){
 
    var statistics = jQuery('.statistics');
-   var title = statistics.find('h2');
-   var countTitles = statistics.find('.count-title');
-   var numbers = statistics.find('.number');
-   var icons = statistics.find('.fa');
-   var bg;
 
-   title.css( 'color', statistics.data('title-color') );
-   icons.css( 'color', statistics.data('icons-color') );
-   numbers.css( 'color', statistics.data('numbers-color') );
-   countTitles.css( 'color', statistics.data('count-titles') );
-   if( statistics.data('background').indexOf('.png') > -1 || statistics.data('background').indexOf('.jpg') > -1 || statistics.data('background').indexOf('.jpeg') > -1 ){
-    bg = 'url('+statistics.data('background')+') no-repeat'; 
-   } else {
-    bg = statistics.data('background');
-   }
-   statistics.css('background', bg);
+   if( statistics.length > 0 ) {
 
-    //setting counts to 0
-   if( jQuery('.stat').length > 0 ){
-      var stat = jQuery('.stat');
-      stat.each(function(){
-        stat.find('.number').text(0);
-      })
-    }
-    //animating when scrolled
-    var countDone = 0;
-    jQuery(window).scroll(function(){
-      //if .statistics exists, initialize
-    if( jQuery('.statistics').length ){
-      var visible = isElementVisible('.statistics');
-    
-    //if stats section visible, start the counting after 400ms
-     if( visible && countDone == 0 ) { //check if it's not already done
-       setTimeout(function(){
-        jQuery('.statistics').statsCounter();
-        countDone = 1;
-       },400);
-      }//if visible && not shown
-    }//if exists
-    });//scroll function
+     var title = statistics.find('h2');
+     var countTitles = statistics.find('.count-title');
+     var numbers = statistics.find('.number');
+     var icons = statistics.find('.fa');
+     var bg;
+   
+	   title.css( 'color', statistics.data('title-color') );
+	   icons.css( 'color', statistics.data('icons-color') );
+	   numbers.css( 'color', statistics.data('numbers-color') );
+	   countTitles.css( 'color', statistics.data('count-titles') );
+	   if( statistics.data('background').indexOf('.png') > -1 || statistics.data('background').indexOf('.jpg') > -1 || statistics.data('background').indexOf('.jpeg') > -1 ){
+	    bg = 'url('+statistics.data('background')+') no-repeat'; 
+	   } else {
+	    bg = statistics.data('background');
+	   }
+	   statistics.css('background', bg);
+
+	    //setting counts to 0
+	   if( jQuery('.stat').length > 0 ){
+	      var stat = jQuery('.stat');
+	      stat.each(function(){
+	        stat.find('.number').text(0);
+	      })
+	    }
+	    //animating when scrolled
+	    var countDone = 0;
+	    jQuery(window).scroll(function(){
+	      //if .statistics exists, initialize
+	    if( jQuery('.statistics').length ){
+	      var visible = isElementVisible('.statistics');
+	    
+	    //if stats section visible, start the counting after 400ms
+	     if( visible && countDone == 0 ) { //check if it's not already done
+	       setTimeout(function(){
+	        jQuery('.statistics').statsCounter();
+	        countDone = 1;
+	       },400);
+	      }//if visible && not shown
+	    }//if exists
+	    });//scroll function
+      
+	}
 })
